@@ -1315,7 +1315,7 @@
     </div>
 
     <!-- Background Audio (autoplay attempt; fallback to user interaction if blocked) -->
-    <audio id="bgAudio" src="images/favsong/Savage%20%26%20Victony%20-%20Rosemary%20%28Official%20Music%20Video%29.mp3" preload="auto" loop></audio>
+    <audio id="bgAudio" src="images/favsong/Savage%20%26%20Victony%20-%20Rosemary%20%28Official%20Music%20Video%29.mp3" autoplay muted loop></audio>
 
     <!-- Hero Section with Countdown -->
     <section class="hero" id="hero">
@@ -1645,10 +1645,7 @@
                     <div class="menu-icon">📅</div>
                     <div class="menu-label">Our Journey</div>
                 </div>
-                <div class="menu-item" onclick="document.getElementById('video').scrollIntoView({behavior: 'smooth'})" tabindex="0" role="button" aria-label="Navigate to video message">
-                    <div class="menu-icon">🎥</div>
-                    <div class="menu-label">Video</div>
-                </div>
+               
                 <div class="menu-item" onclick="document.getElementById('gallery').scrollIntoView({behavior: 'smooth'})" tabindex="0" role="button" aria-label="Navigate to photo gallery">
                     <div class="menu-icon">🖼️</div>
                     <div class="menu-label">Gallery</div>
@@ -1948,24 +1945,20 @@
             }
         });
 
-        // Background audio autoplay with interaction fallback
+        // Background audio autoplay - unmute on first user interaction
         function playBackgroundAudio() {
             const audio = document.getElementById('bgAudio');
             if (!audio) return;
             audio.volume = 0.35;
-            const playPromise = audio.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(() => {
-                    // Autoplay blocked: play on first user interaction
-                    const startOnInteraction = () => {
-                        audio.play().catch(() => {});
-                        document.removeEventListener('click', startOnInteraction);
-                        document.removeEventListener('keydown', startOnInteraction);
-                    };
-                    document.addEventListener('click', startOnInteraction);
-                    document.addEventListener('keydown', startOnInteraction);
-                });
-            }
+            
+            // Unmute on first user click
+            const unmuteOnInteraction = () => {
+                audio.muted = false;
+                document.removeEventListener('click', unmuteOnInteraction);
+                document.removeEventListener('keydown', unmuteOnInteraction);
+            };
+            document.addEventListener('click', unmuteOnInteraction);
+            document.addEventListener('keydown', unmuteOnInteraction);
         }
 
         // Sound Effects
