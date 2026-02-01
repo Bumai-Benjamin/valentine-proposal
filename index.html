@@ -1284,6 +1284,18 @@
                 grid-template-columns: repeat(2, 1fr);
                 gap: 1rem;
             }
+
+            .easter-egg-tooltip {
+                padding: 0.6rem 1rem;
+                font-size: 0.75rem;
+                white-space: normal;
+                max-width: 150px;
+            }
+
+            .easter-egg-tooltip::after {
+                border: 5px solid transparent;
+                border-bottom-color: var(--primary);
+            }
         }
 
         /* Interactive particles */
